@@ -9,5 +9,6 @@
         public string? CustomerDistrict { get; set; } //İlçe zorunlu değil
         public decimal CustomerBalance { get; set; } //Bakiye
         public string? CustomerImageUrl { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

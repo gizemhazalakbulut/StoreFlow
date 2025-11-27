@@ -36,113 +36,15 @@
 
                     @await Component.InvokeAsync("_CardStatisticsDashboardComponentPartial")
 
-                 
+                    @await Component.InvokeAsync("_ChartDashboardComponentPartial")
                     <div class="row">
-                        <div class="col-md-6 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-gift"></i>
-                                        Orders
-                                    </h4>
-                                    <canvas id="orders-chart"></canvas>
-                                    <div id="orders-chart-legend" class="orders-chart-legend"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-chart-line"></i>
-                                        Sales
-                                    </h4>
-                                    <h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Sales</span></h2>
-                                    <canvas id="sales-chart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body d-flex flex-column">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-chart-pie"></i>
-                                        Sales status
-                                    </h4>
-                                    <div class="flex-grow-1 d-flex flex-column justify-content-between">
-                                        <canvas id="sales-status-chart" class="mt-3"></canvas>
-                                        <div class="pt-4">
-                                            <div id="sales-status-chart-legend" class="sales-status-chart-legend"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <i class="far fa-futbol"></i>
-                                        Activity
-                                    </h4>
-                                    <ul class="solid-bullet-list">
-                                        <li>
-                                            <h5>
-                                                4 people shared a post
-                                                <span class="float-right text-muted font-weight-normal small">8:30 AM</span>
-                                            </h5>
-                                            <p class="text-muted">It was an awesome work!</p>
-                                            <div class="image-layers">
-                                                <div class="img-sm profile-image-text bg-warning rounded-circle image-layer-item">M</div>
-                                                <img class="img-sm rounded-circle image-layer-item" src="images/faces/face3.jpg" alt="profile" />
-                                                <img class="img-sm rounded-circle image-layer-item" src="images/faces/face5.jpg" alt="profile" />
-                                                <img class="img-sm rounded-circle image-layer-item" src="images/faces/face8.jpg" alt="profile" />
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <h5>
-                                                Stella posted in a group
-                                                <span class="float-right text-muted font-weight-normal small">11:40 AM</span>
-                                            </h5>
-                                            <p class="text-muted">The team has done a great job</p>
-                                        </li>
-                                        <li>
-                                            <h5>
-                                                Dobrick posted in material
-                                                <span class="float-right text-muted font-weight-normal small">4:30 PM</span>
-                                            </h5>
-                                            <p class="text-muted">Great work. Keep it up!</p>
-                                        </li>
-                                    </ul>
-                                    <div class="border-top pt-3">
-                                        <div class="d-flex justify-content-between">
-                                            <button class="btn btn-outline-dark">More</button>
-                                            <button class="btn btn-primary btn-icon-text">
-                                                Add new task
-                                                <i class="btn-icon-append fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body d-flex flex-column">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                        Daily Sales
-                                    </h4>
-                                    <p class="card-description">Daily sales for the past one month</p>
-                                    <div class="flex-grow-1 d-flex flex-column justify-content-between">
-                                        <canvas id="daily-sales-chart" class="mt-3 mb-3 mb-md-0"></canvas>
-                                        <div id="daily-sales-chart-legend" class="daily-sales-chart-legend pt-4 border-top"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @await Component.InvokeAsync("_SalesStatusDashboardComponentPartial")
+                        @await Component.InvokeAsync("_ActivityDashboardComponentPartial")
+
+                        @await Component.InvokeAsync("_DailySalesDashboardComponentPartial")
+
+                      
+                     
                     </div>
                     <div class="row">
                         <div class="col-12 grid-margin">
@@ -282,113 +184,14 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-md-8 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-table"></i>
-                                        Sales Data
-                                    </h4>
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Customer</th>
-                                                    <th>Item code</th>
-                                                    <th>Orders</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td class="font-weight-bold">
-                                                        Clifford Wilson
-                                                    </td>
-                                                    <td class="text-muted">
-                                                        PT613
-                                                    </td>
-                                                    <td>
-                                                        350
-                                                    </td>
-                                                    <td>
-                                                        <label class="badge badge-success badge-pill">Dispatched</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">
-                                                        Mary Payne
-                                                    </td>
-                                                    <td class="text-muted">
-                                                        ST456
-                                                    </td>
-                                                    <td>
-                                                        520
-                                                    </td>
-                                                    <td>
-                                                        <label class="badge badge-warning badge-pill">Processing</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">
-                                                        Adelaide Blake
-                                                    </td>
-                                                    <td class="text-muted">
-                                                        CS789
-                                                    </td>
-                                                    <td>
-                                                        830
-                                                    </td>
-                                                    <td>
-                                                        <label class="badge badge-danger badge-pill">Failed</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">
-                                                        Adeline King
-                                                    </td>
-                                                    <td class="text-muted">
-                                                        LP908
-                                                    </td>
-                                                    <td>
-                                                        579
-                                                    </td>
-                                                    <td>
-                                                        <label class="badge badge-primary badge-pill">Delivered</label>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="font-weight-bold">
-                                                        Bertie Robbins
-                                                    </td>
-                                                    <td class="text-muted">
-                                                        HF675
-                                                    </td>
-                                                    <td>
-                                                        790
-                                                    </td>
-                                                    <td>
-                                                        <label class="badge badge-info badge-pill">On Hold</label>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        Calendar
-                                    </h4>
-                                    <div id="inline-datepicker-example" class="datepicker"></div>
-                                </div>
-                            </div>
-                        </div>
+                        @await Component.InvokeAsync("_SalesDataDashboardComponentPartial")
+                  
+                
                     </div>
+
+
                     <div class="row">
                         <div class="col-md-7 grid-margin stretch-card">
                             <div class="card">
