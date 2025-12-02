@@ -1,0 +1,48 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "IncompleteTask";
+    Layout = "~/Views/Layout/Index.cshtml";
+    int count = 0;
+}
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Prepend İle Gün Başı KOntrolü</h3>
+                <p class="card-description">
+                    <code>Kategori ile ilgili işlemlerinizi buradan yapabilirsiniz.</code>
+                </p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Açıklama</th>
+                         
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                count++;
+                                <tr>
+                                    <td>@count</td>
+                                    <td>@item</td>
+                                    
+
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                 
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

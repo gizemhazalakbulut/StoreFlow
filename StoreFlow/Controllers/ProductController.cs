@@ -74,7 +74,13 @@ namespace StoreFlow.Controllers
 
         public IActionResult First5ProductList()
         {
-            var values = _context.Products.Include(x=>x.Category).Take(5).ToList();
+            var values = _context.Products.Include(x=>x.Category).Take(5).ToList(); //İlk 5 ürünü getir
+            return View(values);
+        }
+
+        public IActionResult Skip4ProductList()
+        {
+            var values = _context.Products.Include(x=>x.Category).Skip(4).Take(10).ToList(); //4 ürünü atla 10 ürün getir
             return View(values);
         }
     }
