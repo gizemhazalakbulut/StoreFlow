@@ -1,0 +1,31 @@
+﻿@model List<IGrouping<string,Customer>>
+@{
+    ViewData["Title"] = "CustomerListByCity";
+    Layout = "~/Views/Layout/Index.cshtml";
+}
+
+<h2>Şehre Göre Müşteri Listesi</h2>
+
+@foreach(var group in Model)
+{
+    <h3>@group.Key</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>İlçe</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var customer in group)
+            {
+                <tr>
+                    <td>@customer.CustomerName</td>
+                    <td>@customer.CustomerSurname</td>
+                    <td>@customer.CustomerDistrict</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

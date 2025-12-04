@@ -83,5 +83,38 @@ namespace StoreFlow.Controllers
             var values = _context.Products.Include(x=>x.Category).Skip(4).Take(10).ToList(); //4 ürünü atla 10 ürün getir
             return View(values);
         }
+
+        [HttpGet]
+        public IActionResult CreateProductWithAttach()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateProductWithAttach(Product product) //ürün ekleme attach metodu ile
+        {
+            var category = new Category { CategoryId=1 }; //var olan bir kategoriyi kullanarak ürün ekleme
+            _context.Categories.Attach(category);
+            var productValue = new Product
+            {
+                ProductName= product.ProductName,
+                ProductPrice= product.ProductPrice,
+                ProductStock= product.ProductStock,
+                Category= category
+            };
+            _context.Products.Add(productValue);
+            _context.SaveChanges();
+            return RedirectToAction("ProductList");
+        }
+        
+        public IActionResult ProductCount()
+        {
+            var value = _context.Products.LongCount(); //ürün sayısını long olarak getirir
+            var lastProduct  =_context.Products.OrderBy(x => x.ProductId).Last(); //son ürünü getirir
+            ViewBag.v2 = lastProduct.ProductName;
+            ViewBag.v = value;
+            return View();
+        }
+
     }
 }

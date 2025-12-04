@@ -56,5 +56,18 @@ namespace StoreFlow.Controllers
             _context.SaveChanges();
             return RedirectToAction("CategoryList");
         }
+
+        public IActionResult ReverseCategory()
+        {
+            var categoryvalue = _context.Categories.First();
+            ViewBag.v = categoryvalue.CategoryName;
+
+            var categoryvalue2 = _context.Categories.SingleOrDefault(x=>x.CategoryName == "Anne ve Bebek Ürünleri");
+            ViewBag.v2 = categoryvalue2.CategoryStatus + "-" +categoryvalue2.CategoryId.ToString();
+
+
+            var values = _context.Categories.OrderBy(x => x.CategoryId).Reverse().ToList();
+            return View(values);
+        }
     }
 }

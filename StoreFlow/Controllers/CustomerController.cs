@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StoreFlow.Context;
 using StoreFlow.Entities;
+using StoreFlow.Models;
 
 namespace StoreFlow.Controllers
 {
@@ -78,5 +79,75 @@ namespace StoreFlow.Controllers
             _context.SaveChanges();
             return RedirectToAction("CustomerList");
         }
+
+        public IActionResult CustomerListByCity()
+        {
+            var groupedCustomers = _context.Customers.ToList().GroupBy(c => c.CustomerCity)
+                .ToList();
+            return View(groupedCustomers);
+        }
+
+        public IActionResult CustomersByCityCount()
+        {
+            var query = 
+                from c in _context.Customers
+                group c by c.CustomerCity into cityGroup
+                select new CustomerCityGroup
+                {
+                    City = cityGroup.Key,
+                    CustomerCount = cityGroup.Count()
+                };
+            var result = query.ToList();
+            return View(result);
+        }
+
+        public IActionResult CustomerCityList()
+        { 
+            var values = _context.Customers.Select(x => x.CustomerCity).Distinct().ToList(); // Müşteri şehirlerinin tekil listesi
+            return View(values);
+        }
+
+        public IActionResult ParallelCustomers()
+        {
+            var customers = _context.Customers.ToList();
+
+            var result = customers.AsParallel().Where(c => c.CustomerCity.StartsWith("A",StringComparison.OrdinalIgnoreCase)).ToList(); // Şehir adı "A" harfi ile başlayan müşteriler (büyük/küçük harf duyarsız)
+
+            return View(result);
+        }
+
+        public IActionResult CustomerListExceptCityIstanbul()
+        {
+            var allCustomers = _context.Customers.ToList();
+            var customersListInIstanbul = _context.Customers.Where(x => x.CustomerCity == "Istanbul")
+                .Select(c => c.CustomerCity)
+                .ToList();
+            var result = allCustomers.ExceptBy(customersListInIstanbul, c=>c.CustomerCity).ToList(); // İstanbul şehri dışındaki müşteriler
+
+            return View(result);
+        }
+
+        public IActionResult CustomerListWithDefaultIfEmpty()
+        {
+            var customers = _context.Customers.Where(x=>x.CustomerCity=="Balıkesir").ToList().DefaultIfEmpty(new Customer
+            {
+                CustomerId= 0,
+                CustomerName = "Kayıt Yok",
+                CustomerSurname = "------",
+                CustomerCity = "Şehir Yok"
+            }).ToList(); // Ankara şehrinde müşteri yoksa varsayılan müşteri bilgisi
+            return View(customers);
+        }
+
+        public IActionResult CustomerIntersectByCity()
+        {
+         var cityValues1 = _context.Customers.Where(x =>x.CustomerCity == "İstanbul").Select(y => y.CustomerName + " " + y.CustomerSurname).ToList();
+
+            var cityValues2 = _context.Customers.Where(x => x.CustomerCity == "Ankara").Select(y => y.CustomerName + " " + y.CustomerSurname).ToList();
+
+            var intersectValues = cityValues1.Intersect(cityValues2).ToList(); // Hem İstanbul'da hem de Ankara'da bulunan müşteriler
+            return View(intersectValues);
+        }
+
     }
 }
