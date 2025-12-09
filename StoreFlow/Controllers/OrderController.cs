@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using StoreFlow.Context;
 using StoreFlow.Entities;
+using StoreFlow.Models;
 
 namespace StoreFlow.Controllers
 {
@@ -148,6 +149,20 @@ namespace StoreFlow.Controllers
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
             return RedirectToAction("OrderList");
+        }
+
+        public IActionResult OrderListWithCustomerGroup() //group join kullanımı
+        {
+            var result = from customer in _context.Customers
+                         join order in _context.Orders
+                         on customer.CustomerId equals order.CustomerId
+                         into orderGroup // Group join işlemi yaparken her müşterinin siparişlerini bir arada toplamak için kullanılır.
+                         select new CustomerOrderViewModel
+                         {
+                             CustomerName = customer.CustomerName + " " + customer.CustomerSurname,
+                             Orders = orderGroup.ToList()
+                         };
+            return View(result.ToList());
         }
     }
 }

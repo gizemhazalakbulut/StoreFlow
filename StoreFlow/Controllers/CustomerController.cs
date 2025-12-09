@@ -149,5 +149,27 @@ namespace StoreFlow.Controllers
             return View(intersectValues);
         }
 
+        public IActionResult CustomerCastExample()
+        {
+            //Cast() metodu, bir koleksiyondaki öğeleri belirtilen türe dönüştürmek için kullanılır. View sayfasında örnek gösterim yapılacaktır.
+            var values = _context.Customers.ToList();
+            ViewBag.v = values;
+            return View();
+        }
+
+        public IActionResult CustomerListWithIndex()
+        {
+            var customers = _context.Customers
+                .ToList()
+                .Select((c,index) => new
+                {
+                    SiraNo= index + 1,
+                     c.CustomerName,
+                     c.CustomerSurname,
+                     c.CustomerCity
+                }).ToList(); // Müşteri listesi ile birlikte indeks numarası
+            return View(customers);
+        }
+
     }
 }
