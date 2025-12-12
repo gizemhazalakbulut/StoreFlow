@@ -1,16 +1,56 @@
-﻿<div class="col-md-4 grid-margin stretch-card">
+﻿@model List<CustomerCityChartViewModel>
+@using Newtonsoft.Json
+
+@{
+    var cityLabels = Model.Select(x => x.City).ToList();
+    var cityCounts = Model.Select(x => x.Count).ToList();
+}
+
+<div class="col-md-4 grid-margin stretch-card">
     <div class="card">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body">
             <h4 class="card-title">
-                <i class="fas fa-chart-pie"></i>
-                Sipariş Grafiği
+                <i class="fas fa-map-marker-alt"></i> Şehirlere Göre Müşteri Dağılımı
             </h4>
-            <div class="flex-grow-1 d-flex flex-column justify-content-between">
-                <canvas id="sales-status-chart" class="mt-3"></canvas>
-                <div class="pt-4">
-                    <div id="sales-status-chart-legend" class="sales-status-chart-legend"></div>
-                </div>
-            </div>
+            <canvas id="customer-city-chart" width="600" height="600"></canvas>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const labels = @Html.Raw(JsonConvert.SerializeObject(cityLabels));
+        const counts = @Html.Raw(JsonConvert.SerializeObject(cityCounts));
+
+        const ctx = document.getElementById('customer-city-chart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Şehir Başına Müşteri Sayısı',
+                    data: counts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    });
+</script>
